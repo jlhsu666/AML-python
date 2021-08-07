@@ -17,8 +17,8 @@ myenv = Environment.get(workspace=ws, name="AzureML-Minimal")
 # You can choose a specific Python environment by pointing to a Python path 
 # myenv.python.interpreter_path = '/home/johndoe/miniconda3/envs/myenv/bin/python'
 # # 1. Local compute target
-myenv = Environment("user-managed-env")
-myenv.python.user_managed_dependencies = True
+# myenv = Environment("user-managed-env")
+# myenv.python.user_managed_dependencies = True
 
 
 # # 2. remote compute target
@@ -28,7 +28,7 @@ myenv.python.user_managed_dependencies = True
 
 from azureml.core import ScriptRunConfig
 
-src = ScriptRunConfig(source_directory=project_folder,
+src = ScriptRunConfig(source_directory='./to-run',
                       script='hello.py',
                       compute_target='ci44131a22',
                       environment=myenv)
