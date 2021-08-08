@@ -23,7 +23,8 @@ print(model.name, model.id, model.version, sep='\t')
 from azureml.core import Environment
 from azureml.core.model import InferenceConfig
 
-env = Environment(name="project_environment")
+# env = Environment(name="project_environment")
+env = Environment.get(workspace=ws, name="AzureML-sklearn-0.24-ubuntu18.04-py37-cpu")
 dummy_inference_config = InferenceConfig(
     environment=env,
     source_directory="./src",
