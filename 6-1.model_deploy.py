@@ -36,6 +36,15 @@ from azureml.core.webservice import LocalWebservice
 
 deployment_config = LocalWebservice.deploy_configuration(port=6789)
 
+# Once you've confirmed your service works locally and chosen a remote compute target, 
+# you are ready to deploy to the cloud.
+
+# from azureml.core.webservice import AciWebservice
+
+# deployment_config = AciWebservice.deploy_configuration(
+#     cpu_cores=0.5, memory_gb=1, auth_enabled=True
+# )
+
 # Deploy your machine learning model
 service = Model.deploy(
     ws,
