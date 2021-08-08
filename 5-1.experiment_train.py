@@ -29,8 +29,8 @@ myenv = Environment.get(workspace=ws, name="AzureML-Minimal")
 from azureml.core import ScriptRunConfig
 
 src = ScriptRunConfig(source_directory='./to-run',
-                      script='hello.py',
-                      compute_target='ci44131a22',
+                      script='5-1.hello.py',
+                      compute_target='cid09e1870',
                       environment=myenv)
 
 # # Set compute target

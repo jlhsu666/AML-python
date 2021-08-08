@@ -33,7 +33,7 @@ dataset = dataset.register(workspace=ws,
 # list the files referenced by dataset
 dataset.to_path()
 
-cluster_name = "cpucluster"
+cluster_name = "cid09e1870"
 
 try:
     compute_target = ComputeTarget(workspace=ws, name=cluster_name)
@@ -51,13 +51,13 @@ except ComputeTargetException:
 curated_env_name = 'AzureML-TensorFlow-2.2-GPU'
 tf_env = Environment.get(workspace=ws, name=curated_env_name)
 
-# To see the packages included in the curated environment, you can write out the conda dependencies to disk:
-tf_env.save_to_directory(path=curated_env_name)
+# # To see the packages included in the curated environment, you can write out the conda dependencies to disk:
+# tf_env.save_to_directory(path=curated_env_name)
 
-tf_env = Environment.from_conda_specification(name='tensorflow-2.2-gpu', file_path='./conda_dependencies.yml')
 
-# Create a custom environment
-
+# # Create a custom environment
+# # Define your conda dependencies in a YAML file; in this example the file is named conda_dependencies.yml
+# tf_env = Environment.from_conda_specification(name='tensorflow-2.2-gpu', file_path='./to-run/5-2-3.conda_dependencies.yml')
 
 # Create a ScriptRunConfig
 from azureml.core import ScriptRunConfig
@@ -67,9 +67,9 @@ args = ['--data-folder', dataset.as_mount(),
         '--first-layer-neurons', 256,
         '--second-layer-neurons', 128,
         '--learning-rate', 0.01]
-
+script_folder='./to-run'
 src = ScriptRunConfig(source_directory=script_folder,
-                      script='tf_mnist.py',
+                      script='5-2-1.tf_mnist.py',
                       arguments=args,
                       compute_target=compute_target,
                       environment=tf_env)
