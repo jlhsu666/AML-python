@@ -6,8 +6,14 @@ from azureml.core import Model
 
 ws = Workspace.from_config()
 
-# Register the model to deploy
+# Register a model from a local file
 model = Model.register(ws, model_name="bidaf_onnx", model_path="./model.onnx")
+
+# # Register a model from an Azure ML training run
+# model = run.register_model(model_name='bidaf_onnx',
+#                            tags={'area': 'qna'},
+#                            model_path='outputs/model.onnx')
+# print(model.name, model.id, model.version, sep='\t')
 
 myenv = Environment(name="project_environment")
 # Combine scoring script & environment in Inference configuration

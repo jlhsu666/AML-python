@@ -16,7 +16,10 @@ try:
     print('Found existing instance, use it.')
 except ComputeTargetException:
     compute_config = ComputeInstance.provisioning_configuration(
-        vm_size='STANDARD_D3_V2',
+        # Standard_DS1_v2
+        # Standard_D2s_v3
+        # STANDARD_D3_V2
+        vm_size='Standard_DS1_v2',
         ssh_public_access=False,
         # vnet_resourcegroup_name='<my-resource-group>',
         # vnet_name='<my-vnet-name>',

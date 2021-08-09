@@ -17,44 +17,39 @@ print(model.name, model.id, model.version, sep='\t')
 # The entry script receives data submitted to a deployed web service and passes it to the model. 
 # It then returns the model's response to the client. 
 
-# The script is saved in dirctory ./src as echo_score.py, which will be upploaded when you deploy a webservice
-
 # Define an inference configuration
 from azureml.core import Environment
 from azureml.core.model import InferenceConfig
 
-# env = Environment(name="project_environment")
-env = Environment.get(workspace=ws, name="AzureML-sklearn-0.24-ubuntu18.04-py37-cpu")
-dummy_inference_config = InferenceConfig(
-    environment=env,
-    source_directory="./src",
-    entry_script="./echo_score.py",
-)
+env = Environment(name='myenv')
+python_packages = ['nltk', 'numpy', 'onnxruntime']
+for package in python_packages:
+    env.python.conda_dependencies.add_pip_package(package)
 
-# Define a deployment configuration
-from azureml.core.webservice import LocalWebservice
-
-deployment_config = LocalWebservice.deploy_configuration(port=6789)
+# The script is saved in dirctory ./src as echo_score.py, which will be upploaded when you deploy a webservice
+inference_config = InferenceConfig(environment=env, source_directory='./src', entry_script='score.py')
 
 # Once you've confirmed your service works locally and chosen a remote compute target, 
 # you are ready to deploy to the cloud.
 
-# from azureml.core.webservice import AciWebservice
+from azureml.core.webservice import AciWebservice
 
-# deployment_config = AciWebservice.deploy_configuration(
-#     cpu_cores=0.5, memory_gb=1, auth_enabled=True
-# )
+deployment_config = AciWebservice.deploy_configuration(
+    cpu_cores=0.5, memory_gb=1, auth_enabled=True
+)
 
 # Deploy your machine learning model
 service = Model.deploy(
     ws,
     "myservice",
     [model],
-    dummy_inference_config,
+    inference_config,
     deployment_config,
     overwrite=True,
 )
 service.wait_for_deployment(show_output=True)
 print(service.get_logs())
 
-
+# # Delete resources
+# service.delete()
+# model.delete()
